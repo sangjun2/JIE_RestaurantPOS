@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RestaurantPOS</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_table">테이블</string>
+    <string name="title_menu">메뉴</string>
+    <string name="title_accounting">회계</string>
+    <string name="title_setting">설정</string>
+
 </resources>
