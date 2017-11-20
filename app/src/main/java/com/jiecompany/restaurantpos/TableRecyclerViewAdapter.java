@@ -2,14 +2,13 @@ package com.jiecompany.restaurantpos;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -46,35 +45,43 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 Button payButton = (Button) dialogView.findViewById(R.id.dialog_pay_bt);
 
                 payButton.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View view) {
+                                                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+                                                     View dialogView = LayoutInflater.from(mContext).inflate(R.layout.pay_dialog, null);
+
+                                                     builder.setView(dialogView);
+
+                                                     Button cashButton = (Button) dialogView.findViewById(R.id.dialog_cash_bt);
+                                                     Button cardButton = (Button) dialogView.findViewById(R.id.dialog_card_bt);
+
+                                                     cashButton.setOnClickListener(new View.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(View view) {
+
+                                                         }
+                                                     });
+
+                                                     cardButton.setOnClickListener(new View.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(View view) {
+
+                                                         }
+                                                     });
+
+                                                     AlertDialog dialog = builder.create();
+                                                     dialog.setCanceledOnTouchOutside(true);
+
+                                                     dialog.show();
+                                                 }
+                                             });
+
+                orderListButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-                        View dialogView = LayoutInflater.from(mContext).inflate(R.layout.pay_dialog, null);
-
-                        builder.setView(dialogView);
-
-                        Button cashButton = (Button) dialogView.findViewById(R.id.dialog_cash_bt);
-                        Button cardButton = (Button) dialogView.findViewById(R.id.dialog_card_bt);
-
-                        cashButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        });
-
-                        cardButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        });
-
-                        AlertDialog dialog = builder.create();
-                        dialog.setCanceledOnTouchOutside(true);
-
-                        dialog.show();
+                        Intent intent = new Intent(mContext, OrderListActivity.class);
+                        mContext.startActivity(intent);
                     }
                 });
 
@@ -88,9 +95,7 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
         });
 
         holder.indexTextView.setText(String.valueOf(position + 1));
-
     }
-
 
     @Override
     public int getItemCount() {
