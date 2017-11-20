@@ -35,9 +35,11 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                AlertDialog dialog = builder.create();
 
                 View dialogView = LayoutInflater.from(mContext).inflate(R.layout.table_dialog, null);
+
+                builder.setView(dialogView);
+
                 TextView indexTextView = (TextView) dialogView.findViewById(R.id.dialog_title);
                 Button orderButton = (Button) dialogView.findViewById(R.id.dialog_order_bt);
                 Button orderListButton = (Button) dialogView.findViewById(R.id.dialog_order_list_bt);
@@ -45,7 +47,8 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
 
                 indexTextView.setText(String.valueOf(position + 1));
 
-                dialog.setView(dialogView);
+                AlertDialog dialog = builder.create();
+
                 dialog.show();
             }
         });

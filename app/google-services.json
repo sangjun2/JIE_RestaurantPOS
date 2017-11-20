@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "952113881863",
+    "firebase_url": "https://restaurantpos-c017f.firebaseio.com",
+    "project_id": "restaurantpos-c017f",
+    "storage_bucket": "restaurantpos-c017f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952113881863:android:a6ddf11f0395e7c8",
+        "android_client_info": {
+          "package_name": "com.jiecompany.restaurantpos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952113881863-17mcan6ua0ggjmepovbl3s4kfq7inhlv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jiecompany.restaurantpos",
+            "certificate_hash": "02c9a2d138a32a473634c31874d2f50eac8ca638"
+          }
+        },
+        {
+          "client_id": "952113881863-f4g1g3otplv0u8em8pv971sk9e4jc983.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjNVv40VHpfouagVP92zC4ZIOCOkht6jg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952113881863-f4g1g3otplv0u8em8pv971sk9e4jc983.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
