@@ -7,28 +7,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class Order{
-    String menu;
-    int ea;
+/**
+ * Created by Sangjun on 2017-11-20.
+ */
 
-    public Order(String menu, int ea){
-        this.menu = menu;
-        this.ea = ea;
+public class Order {
+    public Menu menu;
+    public int number;
+
+    public Order() {
+
     }
 
-    public String getMenu() {
+    public Order(Menu menu, int number) {
+        this.menu = menu;
+        this.number = number;
+    }
+
+    public Menu getMenu() {
         return menu;
     }
 
-    public void setMenu(String menu) {
+    public void setMenu(Menu menu) {
         this.menu = menu;
     }
 
-    public int getEa() {
-        return ea;
+    public int getNumber() {
+        return number;
     }
 
-    public void setEa(int ea) {
-        this.ea = ea;
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

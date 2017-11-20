@@ -12,6 +12,7 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class Menu {
+    public String key;
     public String group;
     public String name;
     public int price;
@@ -20,10 +21,19 @@ public class Menu {
 
     }
 
-    public Menu(String group, String name, int price) {
+    public Menu(String key, String group, String name, int price) {
+        this.key = key;
         this.group = group;
         this.name = name;
         this.price = price;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getGroup() {
@@ -53,6 +63,8 @@ public class Menu {
     @Exclude
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
+
+        map.put("key", key);
         map.put("group", group);
         map.put("name", name);
         map.put("price", price);

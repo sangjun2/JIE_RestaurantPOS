@@ -57,6 +57,7 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 indexTextView.setText(String.valueOf(position + 1));
 
                 AlertDialog dialog = builder.create();
+                dialog.setCanceledOnTouchOutside(true);
 
                 dialog.show();
             }
