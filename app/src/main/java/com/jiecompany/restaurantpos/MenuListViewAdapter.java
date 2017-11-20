@@ -55,6 +55,7 @@ public class MenuListViewAdapter extends BaseAdapter {
         final TextView name = convertView.findViewById(R.id.menu_item_name);
         final TextView price = convertView.findViewById(R.id.menu_item_price);
         Button modifyButton = convertView.findViewById(R.id.menu_item_modify);
+        modifyButton.setText("수정하기");
 
         name.setText(list.get(i).getName());
         price.setText(String.valueOf(list.get(i).getPrice()));
