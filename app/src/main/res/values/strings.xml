@@ -4,5 +4,6 @@
     <string name="title_menu">메뉴</string>
     <string name="title_accounting">회계</string>
     <string name="title_setting">설정</string>
+    <string name="title_activity_order_list">OrderList</string>
 
 </resources>
