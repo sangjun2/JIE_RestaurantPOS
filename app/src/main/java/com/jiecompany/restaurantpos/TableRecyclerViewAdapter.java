@@ -45,6 +45,39 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 Button orderListButton = (Button) dialogView.findViewById(R.id.dialog_order_list_bt);
                 Button payButton = (Button) dialogView.findViewById(R.id.dialog_pay_bt);
 
+                payButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+                        View dialogView = LayoutInflater.from(mContext).inflate(R.layout.pay_dialog, null);
+
+                        builder.setView(dialogView);
+
+                        Button cashButton = (Button) dialogView.findViewById(R.id.dialog_cash_bt);
+                        Button cardButton = (Button) dialogView.findViewById(R.id.dialog_card_bt);
+
+                        cashButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+
+                        cardButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.setCanceledOnTouchOutside(true);
+
+                        dialog.show();
+                    }
+                });
+
                 indexTextView.setText(String.valueOf(position + 1));
 
                 AlertDialog dialog = builder.create();
