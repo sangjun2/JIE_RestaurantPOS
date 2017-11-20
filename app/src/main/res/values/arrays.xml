@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="group_array">
+        <item>주메뉴</item>
+        <item>사이드메뉴</item>
+        <item>세트메뉴</item>
+        <item>주류</item>
+    </string-array>
+
+</resources>
