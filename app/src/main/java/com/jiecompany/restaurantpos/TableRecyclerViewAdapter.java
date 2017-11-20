@@ -2,6 +2,7 @@ package com.jiecompany.restaurantpos;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
@@ -44,6 +45,14 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 Button orderButton = (Button) dialogView.findViewById(R.id.dialog_order_bt);
                 Button orderListButton = (Button) dialogView.findViewById(R.id.dialog_order_list_bt);
                 Button payButton = (Button) dialogView.findViewById(R.id.dialog_pay_bt);
+
+                orderListButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, OrderListActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
 
                 indexTextView.setText(String.valueOf(position + 1));
 
