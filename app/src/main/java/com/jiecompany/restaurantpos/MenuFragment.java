@@ -35,6 +35,14 @@ public class MenuFragment extends Fragment {
     private ListView listView;
 
     private MenuListViewAdapter menuListViewAdapter;
+    private MenuListViewAdapter sideListViewAdapter;
+    private MenuListViewAdapter setListViewAdapter;
+    private MenuListViewAdapter liquorListViewAdapter;
+
+    ArrayList<Menu> mainList;
+    ArrayList<Menu> sideList;
+    ArrayList<Menu> setList;
+    ArrayList<Menu> liquorList;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -50,6 +58,22 @@ public class MenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mainList = new ArrayList<>();
+        sideList = new ArrayList<>();
+        setList = new ArrayList<>();
+        liquorList = new ArrayList<>();
+
+        menuListViewAdapter = new MenuListViewAdapter(mainList, getContext());
+        sideListViewAdapter = new MenuListViewAdapter(sideList, getContext());
+        setListViewAdapter = new MenuListViewAdapter(setList, getContext());
+        liquorListViewAdapter = new MenuListViewAdapter(liquorList, getContext());
+
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -105,6 +129,27 @@ public class MenuFragment extends Fragment {
 
                             ref.updateChildren(childUpdates);
 
+                            String type = spinner.getSelectedItem().toString();
+                            if(type.equals("주메뉴")) {
+                                mainList.add(menu);
+                                menuListViewAdapter.list.add(menu);
+                                menuListViewAdapter.notifyDataSetChanged();
+                            } else if(type.equals("사이드메뉴")) {
+                                sideList.add(menu);
+                                sideListViewAdapter.list.add(menu);
+                                sideListViewAdapter.notifyDataSetChanged();
+                            } else if (type.equals("세트메뉴")) {
+                                setList.add(menu);
+                                setListViewAdapter.list.add(menu);
+                                setListViewAdapter.notifyDataSetChanged();
+                            } else if (type.equals("주류")) {
+                                liquorList.add(menu);
+                                liquorListViewAdapter.list.add(menu);
+                                liquorListViewAdapter.notifyDataSetChanged();
+                            } else {
+
+                            }
+
                             alertDialog.dismiss();
                         }
                     }
@@ -114,21 +159,55 @@ public class MenuFragment extends Fragment {
 
         listView = view.findViewById(R.id.menu_list);
 
+        searchListData(mainList, "주메뉴");
+        listView.setAdapter(menuListViewAdapter);
+
         mainMenu = view.findViewById(R.id.menu_main_bt);
         mainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mainList = new ArrayList<>();
+                searchListData(mainList, "주메뉴");
+                listView.setAdapter(menuListViewAdapter);
             }
         });
         sideMenu = view.findViewById(R.id.menu_side_bt);
+        sideMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sideList = new ArrayList<>();
+                searchListData(sideList, "사이드메뉴");
+                listView.setAdapter(sideListViewAdapter);
+            }
+        });
         setMenu = view.findViewById(R.id.menu_set_bt);
+        setMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setList = new ArrayList<>();
+                searchListData(setList, "세트메뉴");
+                listView.setAdapter(setListViewAdapter);
+            }
+        });
         liquorMenu = view.findViewById(R.id.menu_liquor_bt);
-
-        //menuListViewAdapter = new MenuListViewAdapter(list, getContext());
-        //listView.setAdapter(menuListViewAdapter);
+        liquorMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                liquorList = new ArrayList<>();
+                searchListData(liquorList, "주류");
+                listView.setAdapter(liquorListViewAdapter);
+            }
+        });
 
         return view;
+    }
+
+    private void searchListData(ArrayList<Menu> list, String type) {
+        for(int i = 0; i < SplashActivity.MENU_LIST.size(); i++) {
+            if(SplashActivity.MENU_LIST.get(i).getGroup().equals(type)) {
+                list.add(SplashActivity.MENU_LIST.get(i));
+            }
+        }
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MenuListViewAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<Menu> list;
+    public ArrayList<Menu> list;
 
     public MenuListViewAdapter(ArrayList<Menu> list, Context context) {
         this.list = list;
