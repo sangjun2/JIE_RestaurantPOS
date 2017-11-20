@@ -24,6 +24,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/border"
             android:hint="메뉴 이름을 입력해주세요."
+            android:maxLines="1"
+            android:inputType="text"
             android:padding="16dp" />
     </LinearLayout>
 
@@ -45,6 +47,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/border"
             android:hint="가격을 입력해주세요."
+            android:maxLines="1"
+            android:inputType="number"
             android:padding="16dp" />
 
     </LinearLayout>
