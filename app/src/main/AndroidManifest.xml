@@ -28,7 +28,6 @@
             android:name=".Order"
             android:label="@string/title_activity_order_list"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".OrderView" />
         <activity android:name=".OrderActivity"></activity>
     </application>
 

@@ -47,33 +47,7 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 payButton.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View view) {
-                                                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-                                                     View dialogView = LayoutInflater.from(mContext).inflate(R.layout.pay_dialog, null);
-
-                                                     builder.setView(dialogView);
-
-                                                     Button cashButton = (Button) dialogView.findViewById(R.id.dialog_cash_bt);
-                                                     Button cardButton = (Button) dialogView.findViewById(R.id.dialog_card_bt);
-
-                                                     cashButton.setOnClickListener(new View.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(View view) {
-
-                                                         }
-                                                     });
-
-                                                     cardButton.setOnClickListener(new View.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(View view) {
-
-                                                         }
-                                                     });
-
-                                                     AlertDialog dialog = builder.create();
-                                                     dialog.setCanceledOnTouchOutside(true);
-
-                                                     dialog.show();
+                                                     mContext.startActivity(new Intent(mContext, PayActivity.class));
                                                  }
                                              });
 
