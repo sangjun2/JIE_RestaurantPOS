@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Sangjun on 2017-11-19.
  */
@@ -30,10 +32,16 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Table table = SplashActivity.TABLE_LIST.get(String.valueOf(position));
+        if(table == null) {
+            table = new Table(position, new ArrayList<Order>(), 0);
+        }
+
         holder.viewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
                 View dialogView = LayoutInflater.from(mContext).inflate(R.layout.table_dialog, null);
 
@@ -44,6 +52,7 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 Button orderListButton = (Button) dialogView.findViewById(R.id.dialog_order_list_bt);
                 Button payButton = (Button) dialogView.findViewById(R.id.dialog_pay_bt);
 
+                final AlertDialog dialog = builder.create();
                 payButton.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View view) {
@@ -61,14 +70,34 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
 
                 indexTextView.setText(String.valueOf(position + 1));
 
-                AlertDialog dialog = builder.create();
+
                 dialog.setCanceledOnTouchOutside(true);
 
                 dialog.show();
+
+                orderButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(mContext, OrderActivity.class);
+                        intent.putExtra("index", position);
+                        mContext.startActivity(intent);
+                    }
+                });
+
+                indexTextView.setText(String.valueOf(position + 1));
+
+
             }
         });
 
-        holder.indexTextView.setText(String.valueOf(position + 1));
+        holder.indexTextView.setText(String.valueOf(table.getIndex() + 1));
+        StringBuffer buf = new StringBuffer();
+        for(int i = 0; i < table.getOrderList().size(); i++) {
+            buf.append(table.getOrderList().get(i).getMenu().getName() + " " + table.getOrderList().get(i).getNumber() + "\n");
+        }
+        holder.contentListView.setText(buf + "");
+        holder.totalTextView.setText(String.valueOf(table.getTotal()) + " 원");
     }
 
     @Override
