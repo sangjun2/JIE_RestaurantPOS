@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,6 +53,24 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 Button payButton = (Button) dialogView.findViewById(R.id.dialog_pay_bt);
 
                 final AlertDialog dialog = builder.create();
+                payButton.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View view) {
+                                                     mContext.startActivity(new Intent(mContext, PayActivity.class));
+                                                 }
+                                             });
+
+                orderListButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, OrderListActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+
+                indexTextView.setText(String.valueOf(position + 1));
+
+
                 dialog.setCanceledOnTouchOutside(true);
 
                 dialog.show();
@@ -82,9 +98,7 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
         }
         holder.contentListView.setText(buf + "");
         holder.totalTextView.setText(String.valueOf(table.getTotal()) + " 원");
-
     }
-
 
     @Override
     public int getItemCount() {

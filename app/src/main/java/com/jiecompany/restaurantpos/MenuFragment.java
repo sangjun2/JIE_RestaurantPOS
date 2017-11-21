@@ -195,6 +195,10 @@ public class MenuFragment extends Fragment {
         mainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                sideMenu.setBackgroundResource(android.R.drawable.btn_default);
+                setMenu.setBackgroundResource(android.R.drawable.btn_default);
+                liquorMenu.setBackgroundResource(android.R.drawable.btn_default);
                 mainList = new ArrayList<>();
                 searchListData(mainList, "주메뉴");
                 mainListViewAdapter.list = mainList;
@@ -206,6 +210,10 @@ public class MenuFragment extends Fragment {
         sideMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundResource(android.R.drawable.btn_default);
+                sideMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                setMenu.setBackgroundResource(android.R.drawable.btn_default);
+                liquorMenu.setBackgroundResource(android.R.drawable.btn_default);
                 sideList = new ArrayList<>();
                 searchListData(sideList, "사이드메뉴");
                 sideListViewAdapter.list = sideList;
@@ -217,6 +225,10 @@ public class MenuFragment extends Fragment {
         setMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundResource(android.R.drawable.btn_default);
+                sideMenu.setBackgroundResource(android.R.drawable.btn_default);
+                setMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                liquorMenu.setBackgroundResource(android.R.drawable.btn_default);
                 setList = new ArrayList<>();
                 searchListData(setList, "세트메뉴");
                 setListViewAdapter.list = setList;
@@ -228,6 +240,10 @@ public class MenuFragment extends Fragment {
         liquorMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundResource(android.R.drawable.btn_default);
+                sideMenu.setBackgroundResource(android.R.drawable.btn_default);
+                setMenu.setBackgroundResource(android.R.drawable.btn_default);
+                liquorMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
                 liquorList = new ArrayList<>();
                 searchListData(liquorList, "주류");
                 liquorListViewAdapter.list = liquorList;
