@@ -91,9 +91,9 @@ public class MenuFragment extends Fragment {
                         String searchData = search.getText().toString();
                         ArrayList<Menu> searchList = new ArrayList<>();
 
-                        for(int j = 0; j < SplashActivity.MENU_LIST.size(); j++) {
-                            if(SplashActivity.MENU_LIST.get(j).getName().contains(searchData)) {
-                                searchList.add(SplashActivity.MENU_LIST.get(j));
+                        for(Map.Entry<String, Menu> entry : SplashActivity.MENU_LIST.entrySet()) {
+                            if(entry.getValue().getName().contains(searchData)) {
+                                searchList.add(entry.getValue());
                             }
                         }
 
@@ -153,7 +153,6 @@ public class MenuFragment extends Fragment {
                             String randomKey = ref.push().getKey();
 
                             Menu menu = new Menu(randomKey, spinner.getSelectedItem().toString(), name.getText().toString(), Integer.parseInt(price.getText().toString()));
-                            SplashActivity.MENU_LIST.add(menu);
 
                             childUpdates.put(randomKey, menu.toMap());
 
@@ -241,9 +240,9 @@ public class MenuFragment extends Fragment {
     }
 
     private void searchListData(ArrayList<Menu> list, String type) {
-        for(int i = 0; i < SplashActivity.MENU_LIST.size(); i++) {
-            if(SplashActivity.MENU_LIST.get(i).getGroup().equals(type)) {
-                list.add(SplashActivity.MENU_LIST.get(i));
+        for(Map.Entry<String, Menu> entry : SplashActivity.MENU_LIST.entrySet()) {
+            if(entry.getValue().getGroup().equals(type)) {
+                list.add(entry.getValue());
             }
         }
     }

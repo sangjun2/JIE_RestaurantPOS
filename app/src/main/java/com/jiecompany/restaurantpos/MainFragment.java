@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 
 public class MainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
+    public static TableRecyclerViewAdapter adapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -37,7 +40,8 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_table, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.table_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new TableRecyclerViewAdapter());
+        adapter = new TableRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
