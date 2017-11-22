@@ -11,9 +11,12 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class OrderActivity extends AppCompatActivity {
     private Button mainMenu;
@@ -121,13 +124,17 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("table");
+                DatabaseReference ref = database.getReference();
+                String randomKey;
+
                 Map<String, Object> childUpdates = new HashMap<>();
                 ArrayList<Order> orders;
                 if(SplashActivity.TABLE_LIST.get(String.valueOf(tableNumber)) == null) {
                     orders = new ArrayList<>();
+                    randomKey = ref.push().getKey();
                 } else {
                     orders = SplashActivity.TABLE_LIST.get(String.valueOf(tableNumber)).getOrderList();
+                    randomKey = SplashActivity.TABLE_LIST.get(String.valueOf(tableNumber)).getKey();
                 }
                 ArrayList<Order> result = new ArrayList<>();
                 int t = 0;
@@ -151,7 +158,13 @@ public class OrderActivity extends AppCompatActivity {
                     }
                     t += (orderList.get(i).getMenu().getPrice() * orderList.get(i).getNumber());
                 }
-                childUpdates.put(String.valueOf(tableNumber) + "/", new Table(tableNumber, result, t).toMap());
+                childUpdates.put("table/" + String.valueOf(tableNumber) + "/", new Table(randomKey, result, t).toMap());
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
+                SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmm");
+
+
+                childUpdates.put("receipt/" + randomKey + "/", new Receipt(tableNumber, format.format(calendar.getTime()), t, new ArrayList<Payment>(), "").toMap());
+
                 ref.updateChildren(childUpdates);
 
                 finish();

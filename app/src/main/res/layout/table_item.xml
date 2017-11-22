@@ -5,8 +5,8 @@
     android:background="@drawable/border"
     android:id="@+id/table_item"
     android:layout_width="match_parent"
-    android:layout_height="168sp"
-    android:layout_margin="16dp">
+    android:layout_height="160sp"
+    android:layout_margin="12dp">
 
     <TextView
         android:id="@+id/table_item_index"

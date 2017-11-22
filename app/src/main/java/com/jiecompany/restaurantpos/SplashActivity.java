@@ -36,8 +36,11 @@ public class SplashActivity extends AppCompatActivity {
     private long menuCount;
     private boolean completedLoadMenu;
     public static Map<String, Table> TABLE_LIST;
+    public static Map<String, Receipt> RECEIPT_LIST;
     private long tableCount;
     private boolean completedLoadTable;
+    private long receiptCount;
+    private boolean completedReceipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +71,14 @@ public class SplashActivity extends AppCompatActivity {
         TABLE_LIST = new HashMap<>();
         tableCount = 0;
         completedLoadTable = false;
+        RECEIPT_LIST = new HashMap<>();
+        receiptCount = 0;
+        completedReceipt = false;
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference menuRef = database.getReference("menu");
         DatabaseReference tableRef = database.getReference("table");
+        DatabaseReference receiptRef = database.getReference("receipt");
 
         menuRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -88,7 +95,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                MENU_LIST.remove(dataSnapshot.getKey());
             }
 
             @Override
@@ -108,7 +115,7 @@ public class SplashActivity extends AppCompatActivity {
                     completedLoadMenu = true;
                 }
 
-                if(completedLoadMenu && completedLoadTable) {
+                if(completedLoadMenu && completedLoadTable && completedReceipt) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -133,14 +140,15 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                TABLE_LIST.get(dataSnapshot.getKey());
+                TABLE_LIST.remove(dataSnapshot.getKey());
                 TABLE_LIST.put(String.valueOf(dataSnapshot.getKey()), dataSnapshot.getValue(Table.class));
                 MainFragment.adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                TABLE_LIST.remove(dataSnapshot.getKey());
+                MainFragment.adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -160,7 +168,54 @@ public class SplashActivity extends AppCompatActivity {
                     completedLoadTable = true;
                 }
 
-                if(completedLoadMenu && completedLoadTable) {
+                if(completedLoadMenu && completedLoadTable && completedReceipt) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        receiptRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                RECEIPT_LIST.put(dataSnapshot.getKey(), dataSnapshot.getValue(Receipt.class));
+                ++receiptCount;
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                RECEIPT_LIST.remove(dataSnapshot.getKey());
+                RECEIPT_LIST.put(dataSnapshot.getKey(), dataSnapshot.getValue(Receipt.class));
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                RECEIPT_LIST.remove(dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        receiptRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(receiptCount == dataSnapshot.getChildrenCount()) {
+                    completedReceipt = true;
+                }
+
+                if(completedLoadMenu && completedLoadTable && completedReceipt) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
