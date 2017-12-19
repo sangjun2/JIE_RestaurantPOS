@@ -1,5 +1,6 @@
 package com.jiecompany.restaurantpos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,6 +17,11 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
+    Intent intent;
+
+    private static int REQUEST_MENU = 1;
+    private static int REQUEST_ACCOUNTING = 2;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -28,14 +34,12 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.commit();
                     return true;
                 case R.id.navigation_menu:
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, MenuFragment.newInstance());
-                    fragmentTransaction.commit();
+                    intent.putExtra("type", "get");
+                    startActivityForResult(intent, REQUEST_MENU);
                     return true;
                 case R.id.navigation_accounting:
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, AccountingFragment.newInstance());
-                    fragmentTransaction.commit();
+                    intent.putExtra("type", "get");
+                    startActivityForResult(intent, REQUEST_ACCOUNTING);
                     return true;
                 case R.id.navigation_setting:
                     fragmentTransaction = fragmentManager.beginTransaction();
@@ -50,9 +54,38 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        boolean isTrue = false;
+
+        if(requestCode == REQUEST_MENU) {
+            if(resultCode == 1) {
+                isTrue = data.getBooleanExtra("response", false);
+                if(isTrue) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, MenuFragment.newInstance());
+                    fragmentTransaction.commit();
+                }
+            }
+        } else if(requestCode == REQUEST_ACCOUNTING) {
+            if(resultCode == 1) {
+                isTrue = data.getBooleanExtra("response", false);
+                if(isTrue) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, AccountingFragment.newInstance());
+                    fragmentTransaction.commit();
+                }
+            }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        intent = new Intent(MainActivity.this, PasswordActivity.class);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

@@ -121,7 +121,7 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
 
     @Override
     public int getItemCount() {
-        return 6;
+        return SplashActivity.NUMBER_OF_TABLE;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
