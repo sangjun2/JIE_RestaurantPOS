@@ -1,6 +1,7 @@
 package com.jiecompany.restaurantpos;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,6 +43,8 @@ public class SplashActivity extends AppCompatActivity {
     private long receiptCount;
     private boolean completedReceipt;
 
+    public static int NUMBER_OF_TABLE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,11 @@ public class SplashActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        SharedPreferences preferences = getSharedPreferences("Account", MODE_PRIVATE);
+        int num = preferences.getInt("number", 6);
+
+        NUMBER_OF_TABLE = num;
 
         MENU_LIST = new HashMap<>();
         menuCount = 0;
@@ -116,9 +124,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
 
                 if(completedLoadMenu && completedLoadTable && completedReceipt) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    setPassword();
                 }
             }
 
@@ -169,9 +175,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
 
                 if(completedLoadMenu && completedLoadTable && completedReceipt) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    setPassword();
                 }
             }
 
@@ -216,9 +220,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
 
                 if(completedLoadMenu && completedLoadTable && completedReceipt) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    setPassword();
                 }
             }
 
@@ -227,5 +229,35 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setPassword() {
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Account", MODE_PRIVATE);
+        String password = preferences.getString("password", "");
+        if(password.equals("")) {
+            Intent intent = new Intent(SplashActivity.this, PasswordActivity.class);
+            intent.putExtra("type", "set");
+            startActivityForResult(intent, 0);
+        } else {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 0) {
+            if(resultCode == 1) {
+                boolean isTrue = data.getBooleanExtra("response", false);
+                if(isTrue) {
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }
     }
 }
