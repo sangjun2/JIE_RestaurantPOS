@@ -29,6 +29,7 @@ public class PayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
+
         mContext = this;
 
         Intent intent = getIntent();
@@ -40,7 +41,18 @@ public class PayActivity extends AppCompatActivity {
         money = findViewById(R.id.pay_money);
 
         totalValue = findViewById(R.id.pay_total_money);
-        totalValue.setText(String.valueOf(receipt.getTotal()) + " 원");
+        int remain = 0;
+        if(receipt.getPayList() == null){
+            remain = SplashActivity.TABLE_LIST.get(String.valueOf(index)).getTotal();
+            totalValue.setText(String.valueOf(remain) + " 원");
+        }
+        else{
+            for(int i = 0; i < receipt.getPayList().size(); i++){
+                remain += receipt.getPayList().get(i).getMoney();
+            }
+            totalValue.setText(String.valueOf(receipt.getTotal() - remain) + " 원");
+        }
+
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +102,11 @@ public class PayActivity extends AppCompatActivity {
                                     total += receipt.getPayList().get(i).getMoney();
                                 }
                             }
+                            if(total + Integer.parseInt(money.getText().toString()) > receipt.getTotal()){
+                                Toast.makeText(getApplicationContext(), "총액보다 높은 가격을 입력하였습니다.", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                return;
+                            }
                             list.add(new Payment(Integer.parseInt(money.getText().toString()), "현금"));
                             total += Integer.parseInt(money.getText().toString());
 
@@ -130,6 +147,11 @@ public class PayActivity extends AppCompatActivity {
                                     list.add(receipt.getPayList().get(i));
                                     total += receipt.getPayList().get(i).getMoney();
                                 }
+                            }
+                            if(total + Integer.parseInt(money.getText().toString()) > receipt.getTotal()){
+                                Toast.makeText(getApplicationContext(), "총액보다 높은 가격을 입력하였습니다.", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                return;
                             }
                             list.add(new Payment(Integer.parseInt(money.getText().toString()), "카드"));
                             total += Integer.parseInt(money.getText().toString());

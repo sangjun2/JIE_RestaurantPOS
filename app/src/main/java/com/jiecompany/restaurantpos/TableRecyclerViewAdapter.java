@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,11 +65,13 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                     public void onClick(View view) {
                         if(SplashActivity.TABLE_LIST.get(String.valueOf(position)) == null) {
                             dialog.dismiss();
+                            Log.d("index", String.valueOf(position));
                             Toast.makeText(mContext, "주문 내역이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             dialog.dismiss();
                             Intent intent = new Intent(mContext, PayActivity.class);
                             intent.putExtra("index", position);
+                            Log.d("index", String.valueOf(position));
                             mContext.startActivity(intent);
                         }
                     }
