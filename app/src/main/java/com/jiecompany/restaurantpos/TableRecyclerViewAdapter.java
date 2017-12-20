@@ -5,13 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sangjun on 2017-11-19.
@@ -32,10 +37,18 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Table table = SplashActivity.TABLE_LIST.get(String.valueOf(position));
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+        if(table == null) {
+            table = new Table(String.valueOf(position), new ArrayList<Order>(), 0);
+        }
+
         holder.viewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
                 View dialogView = LayoutInflater.from(mContext).inflate(R.layout.table_dialog, null);
 
@@ -46,27 +59,68 @@ public class TableRecyclerViewAdapter extends RecyclerView.Adapter<TableRecycler
                 Button orderListButton = (Button) dialogView.findViewById(R.id.dialog_order_list_bt);
                 Button payButton = (Button) dialogView.findViewById(R.id.dialog_pay_bt);
 
+                final AlertDialog dialog = builder.create();
+                payButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(SplashActivity.TABLE_LIST.get(String.valueOf(position)) == null) {
+                            dialog.dismiss();
+                            Log.d("index", String.valueOf(position));
+                            Toast.makeText(mContext, "주문 내역이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            dialog.dismiss();
+                            Intent intent = new Intent(mContext, PayActivity.class);
+                            intent.putExtra("index", position);
+                            Log.d("index", String.valueOf(position));
+                            mContext.startActivity(intent);
+                        }
+                    }
+                });
+
                 orderListButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(mContext, OrderListActivity.class);
-                        mContext.startActivity(intent);
+                        if(SplashActivity.TABLE_LIST.get(String.valueOf(position)) == null) {
+                            dialog.dismiss();
+                            Toast.makeText(mContext, "주문 내역이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            dialog.dismiss();
+                            Intent intent = new Intent(mContext, OrderListActivity.class);
+                            intent.putExtra("index", position);
+                            mContext.startActivity(intent);
+                        }
                     }
                 });
 
                 indexTextView.setText(String.valueOf(position + 1));
 
-                AlertDialog dialog = builder.create();
+
                 dialog.setCanceledOnTouchOutside(true);
 
                 dialog.show();
-            }
+
+                orderButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(mContext, OrderActivity.class);
+                        intent.putExtra("index", position);
+                        mContext.startActivity(intent);
+                    }
+                });
+
+                indexTextView.setText(String.valueOf(position + 1));
+            };
         });
 
         holder.indexTextView.setText(String.valueOf(position + 1));
-
+        StringBuffer buf = new StringBuffer();
+        for(int i = 0; i < table.getOrderList().size(); i++) {
+            buf.append(table.getOrderList().get(i).getMenu().getName() + " " + table.getOrderList().get(i).getNumber() + "\n");
+        }
+        holder.contentListView.setText(buf + "");
+        holder.totalTextView.setText(String.valueOf(table.getTotal()) + " 원");
     }
-
 
     @Override
     public int getItemCount() {

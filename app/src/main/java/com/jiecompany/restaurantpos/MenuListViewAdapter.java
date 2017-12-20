@@ -51,15 +51,15 @@ public class MenuListViewAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         View convertView = LayoutInflater.from(mContext).inflate(R.layout.menu_item, null);
-
         final TextView name = convertView.findViewById(R.id.menu_item_name);
         final TextView price = convertView.findViewById(R.id.menu_item_price);
-        Button modifyButton = convertView.findViewById(R.id.menu_item_modify);
-        modifyButton.setText("수정하기");
+
+        Button button = convertView.findViewById(R.id.menu_item_bt);
+        button.setText("수정하기");
 
         name.setText(list.get(i).getName());
-        price.setText(String.valueOf(list.get(i).getPrice()));
-        modifyButton.setOnClickListener(new View.OnClickListener() {
+        price.setText(String.valueOf(list.get(i).getPrice()) + " 원");
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -71,7 +71,7 @@ public class MenuListViewAdapter extends BaseAdapter {
                 final Spinner spinner = dialogView.findViewById(R.id.menu_add_group);
 
                 nameEdit.setText(name.getText().toString());
-                priceEdit.setText(price.getText().toString());
+                priceEdit.setText(String.valueOf(list.get(i).getPrice()));
 
                 String[] groupArray = mContext.getResources().getStringArray(R.array.group_array);
                 for(int j = 0; j < groupArray.length; j++) {
@@ -114,13 +114,6 @@ public class MenuListViewAdapter extends BaseAdapter {
                             Map<String, Object> childUpdates = new HashMap<>();
 
                             Menu menu = new Menu(key, spinner.getSelectedItem().toString(), nameEdit.getText().toString(), Integer.parseInt(priceEdit.getText().toString()));
-                            for(int j = 0; j < SplashActivity.MENU_LIST.size(); j++) {
-                                if(SplashActivity.MENU_LIST.get(j).getKey().equals(key)) {
-                                    SplashActivity.MENU_LIST.remove(j);
-                                    SplashActivity.MENU_LIST.add(j, menu);
-                                    break;
-                                }
-                            }
 
                             childUpdates.put(key, menu.toMap());
 

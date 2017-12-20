@@ -91,9 +91,9 @@ public class MenuFragment extends Fragment {
                         String searchData = search.getText().toString();
                         ArrayList<Menu> searchList = new ArrayList<>();
 
-                        for(int j = 0; j < SplashActivity.MENU_LIST.size(); j++) {
-                            if(SplashActivity.MENU_LIST.get(j).getName().contains(searchData)) {
-                                searchList.add(SplashActivity.MENU_LIST.get(j));
+                        for(Map.Entry<String, Menu> entry : SplashActivity.MENU_LIST.entrySet()) {
+                            if(entry.getValue().getName().contains(searchData)) {
+                                searchList.add(entry.getValue());
                             }
                         }
 
@@ -153,7 +153,6 @@ public class MenuFragment extends Fragment {
                             String randomKey = ref.push().getKey();
 
                             Menu menu = new Menu(randomKey, spinner.getSelectedItem().toString(), name.getText().toString(), Integer.parseInt(price.getText().toString()));
-                            SplashActivity.MENU_LIST.add(menu);
 
                             childUpdates.put(randomKey, menu.toMap());
 
@@ -196,6 +195,10 @@ public class MenuFragment extends Fragment {
         mainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                sideMenu.setBackgroundResource(android.R.drawable.btn_default);
+                setMenu.setBackgroundResource(android.R.drawable.btn_default);
+                liquorMenu.setBackgroundResource(android.R.drawable.btn_default);
                 mainList = new ArrayList<>();
                 searchListData(mainList, "주메뉴");
                 mainListViewAdapter.list = mainList;
@@ -207,6 +210,10 @@ public class MenuFragment extends Fragment {
         sideMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundResource(android.R.drawable.btn_default);
+                sideMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                setMenu.setBackgroundResource(android.R.drawable.btn_default);
+                liquorMenu.setBackgroundResource(android.R.drawable.btn_default);
                 sideList = new ArrayList<>();
                 searchListData(sideList, "사이드메뉴");
                 sideListViewAdapter.list = sideList;
@@ -218,6 +225,10 @@ public class MenuFragment extends Fragment {
         setMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundResource(android.R.drawable.btn_default);
+                sideMenu.setBackgroundResource(android.R.drawable.btn_default);
+                setMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                liquorMenu.setBackgroundResource(android.R.drawable.btn_default);
                 setList = new ArrayList<>();
                 searchListData(setList, "세트메뉴");
                 setListViewAdapter.list = setList;
@@ -229,6 +240,10 @@ public class MenuFragment extends Fragment {
         liquorMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainMenu.setBackgroundResource(android.R.drawable.btn_default);
+                sideMenu.setBackgroundResource(android.R.drawable.btn_default);
+                setMenu.setBackgroundResource(android.R.drawable.btn_default);
+                liquorMenu.setBackgroundColor(getResources().getColor(R.color.colorBlue));
                 liquorList = new ArrayList<>();
                 searchListData(liquorList, "주류");
                 liquorListViewAdapter.list = liquorList;
@@ -241,9 +256,9 @@ public class MenuFragment extends Fragment {
     }
 
     private void searchListData(ArrayList<Menu> list, String type) {
-        for(int i = 0; i < SplashActivity.MENU_LIST.size(); i++) {
-            if(SplashActivity.MENU_LIST.get(i).getGroup().equals(type)) {
-                list.add(SplashActivity.MENU_LIST.get(i));
+        for(Map.Entry<String, Menu> entry : SplashActivity.MENU_LIST.entrySet()) {
+            if(entry.getValue().getGroup().equals(type)) {
+                list.add(entry.getValue());
             }
         }
     }
